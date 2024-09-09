@@ -58,6 +58,11 @@ def search():
     # Display results
     return render_template("search.html", results=results)
 
+# To mitigate change the query code above to:
+# query = "SELECT * FROM users WHERE username = ?"
+# cursor.execute(query, (username,))
+
+
 
 if __name__ == "__main__":
     with app.app_context():
