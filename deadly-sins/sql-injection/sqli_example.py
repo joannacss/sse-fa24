@@ -50,8 +50,12 @@ def search():
     # Vulnerable SQL Query (SQL Injection possible)
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
-    query = f"SELECT * FROM users WHERE username = ?"  # SQL Injection vulnerability
-    cursor.execute(query, (username, ))
+    # query = f"SELECT * FROM users WHERE username = ?"  # SQL Injection vulnerability
+    # cursor.execute(query, (username, ))
+
+    query = f"SELECT * FROM users WHERE username = '{username}'" 
+    cursor.executescript(query)
+    
     results = cursor.fetchall()
     conn.close()
 
