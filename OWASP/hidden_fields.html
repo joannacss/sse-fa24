@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Shopping Cart</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .product {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .product h3 {
+        margin: 0;
+        font-size: 1.2em;
+      }
+
+      .product p {
+        margin: 5px 0;
+      }
+
+      .product input[type="number"] {
+        width: 60px;
+      }
+
+      .product .price {
+        font-weight: bold;
+      }
+
+      .total {
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+
+      .checkout {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+
+      .checkout:hover {
+        background-color: #218838;
+      }
+
+    </style>
+  </head>
+
+  <body>
+    <h1>E-commerce Shopping Cart</h1>
+    <form action="checkout.html" method="post">
+      <!-- Product 1 -->
+      <div class="product">
+        <h3>Product 1: Wireless Headphones</h3>
+        <p>Description: High-quality wireless headphones with noise cancellation.</p>
+        <p>Price: <span class="price">$70.00</span></p>
+        <label for="quantity1">Quantity:</label>
+        <input type="number" id="quantity1" name="quantity1" value="1" min="1">
+        <input type="hidden" name="product1" value="Wireless Headphones">
+        <input type="hidden" name="price1" value="70.00">
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product">
+        <h3>Product 2: Smart Watch</h3>
+        <p>Description: Stylish smartwatch with fitness tracking and notifications.</p>
+        <p>Price: <span class="price">$120.00</span></p>
+        <label for="quantity2">Quantity:</label>
+        <input type="number" id="quantity2" name="quantity2" value="1" min="1">
+        <input type="hidden" name="product2" value="Smart Watch">
+        <input type="hidden" name="price2" value="120.00">
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product">
+        <h3>Product 3: Bluetooth Speaker</h3>
+        <p>Description: Portable Bluetooth speaker with deep bass and long battery life.</p>
+        <p>Price: <span class="price">$45.00</span></p>
+        <label for="quantity3">Quantity:</label>
+        <input type="number" id="quantity3" name="quantity3" value="1" min="1">
+        <input type="hidden" name="product3" value="Bluetooth Speaker">
+        <input type="hidden" name="price3" value="45.00">
+      </div>
+
+      <!-- Total and Checkout -->
+      <div class="total">
+        Total: <span id="total-price">$235.00</span>
+      </div>
+      <button type="submit" class="checkout">Proceed to Checkout</button>
+    </form>
+
+    <script>
+      // JavaScript to update total price dynamically
+      const quantities = document.querySelectorAll('input[type="number"]');
+      const prices = [70.00, 120.00, 45.00];
+
+      function updateTotal() {
+        let total = 0;
+        quantities.forEach((quantity, index) => {
+          total += quantity.value * prices[index];
+        });
+        document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+      }
+
+      quantities.forEach(quantity => {
+        quantity.addEventListener('input', updateTotal);
+      });
+
+      updateTotal(); // Initialize total price on page load
+
+    </script>
+  </body>
+
+</html>
