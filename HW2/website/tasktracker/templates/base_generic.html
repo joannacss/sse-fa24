@@ -24,7 +24,10 @@
 		            		<p class="m-0 p-2">Signed in as <b>{{request.user}}</b></p>
 		            	</li>
 		                <li class="nav-item">
-		                    <a class="nav-link" href="{% url 'logout' %}?next={% url 'login' %}" data-bs-target="#myModal" data-bs-toggle="modal">Logout</a>
+		                		<a class="nav-link" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+		                		<form id="logout-form" action="{% url 'logout' %}?next={% url 'login' %}" method="POST" style="display:none;">
+										{% csrf_token %}
+									</form>		                    
 		                </li>
 		            </ul>
 		        </div>
