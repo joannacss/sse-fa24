@@ -5,7 +5,7 @@
 <div class="alert alert-danger d-flex align-items-center" role="alert">
     <ul>
         {% for field_name, field_errors in errors %}
-        <li> {{ field_name }}: {{field_errors}} </li>
+        <li> {{ field_name }}: {{ field_errors }} </li>
         {% endfor %}
     </ul>
 </div>
