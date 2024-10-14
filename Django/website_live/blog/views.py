@@ -44,11 +44,9 @@ def login(request):
         # Create a model instance and populate it with data from the request
         uname = request.POST["username"]
         pwd = request.POST["password"]
-        user = User.objects.filter(username=uname)
-
+        user = User.objects.raw(f"SELECT * FROM blog_user WHERE username='{uname}')")
         if len(user) > 0:
             user_obj = user[0]
-            print("user obj", user_obj)
             if check_password(pwd, user_obj.password):
                 # create a new session
                 request.session["user"] = uname
