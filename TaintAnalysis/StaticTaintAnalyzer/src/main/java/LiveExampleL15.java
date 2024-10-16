@@ -2,27 +2,22 @@ import com.ibm.wala.classLoader.IClass;
 import com.ibm.wala.ipa.callgraph.*;
 import com.ibm.wala.ipa.callgraph.impl.Util;
 import com.ibm.wala.ipa.callgraph.propagation.InstanceKey;
-import com.ibm.wala.ipa.callgraph.propagation.PointerAnalysis;
 import com.ibm.wala.ipa.callgraph.propagation.SSAPropagationCallGraphBuilder;
 import com.ibm.wala.ipa.cha.ClassHierarchyException;
 import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.ipa.cha.IClassHierarchy;
 import com.ibm.wala.ipa.slicer.*;
-import com.ibm.wala.ipa.slicer.Slicer.ControlDependenceOptions;
-import com.ibm.wala.ipa.slicer.Slicer.DataDependenceOptions;
 import com.ibm.wala.ssa.*;
 import com.ibm.wala.types.*;
 import com.ibm.wala.util.CancelException;
 import com.ibm.wala.util.collections.HashSetFactory;
 import com.ibm.wala.util.config.FileOfClasses;
 import com.ibm.wala.util.graph.Graph;
-import com.ibm.wala.util.graph.GraphSlicer;
 import com.ibm.wala.util.graph.traverse.BFSPathFinder;
 import com.ibm.wala.util.strings.Atom;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,36 +52,25 @@ public class LiveExampleL15 {
         options.setEntrypoints(entrypoints);
         SSAPropagationCallGraphBuilder builder = Util.makeNCFABuilder(1, options, new AnalysisCacheImpl(), classHierarchy, scope);
         CallGraph callGraph = builder.makeCallGraph(options, null);
-        ExampleL13.printCallGraph(callGraph, "1-CFA");
+        ExampleL14.printCallGraph(callGraph, "1-CFA");
 
 
         // TODO: Compute the SDG of the program (data only)
-        PointerAnalysis<InstanceKey> pointerAnalysis = builder.getPointerAnalysis();
-        SDG sdg = new SDG(callGraph, pointerAnalysis, DataDependenceOptions.NO_BASE_NO_HEAP_NO_EXCEPTIONS, ControlDependenceOptions.NO_EXCEPTIONAL_EDGES);
+
 
         // TODO: find sources and sinks
-        Set<Statement> sources = findSources(sdg);
-        Set<Statement> sinks = findSinks(sdg);
+
 
         // TODO: slice the SDG and compute a pruned SDG
-        Collection<Statement> slice = Slicer.computeBackwardSlice(sdg, sinks);
-        Graph slicedSdg = GraphSlicer.prune(sdg, s -> slice.contains(s));
+
 
         // TODO: find vulnerable paths
-        Set<List<Statement>> vulnerablePaths = getVulnerablePaths(slicedSdg, sources, sinks);
-
-
 
 
 
         // TODO: print vulnerable paths
 
-        for (List<Statement> vulnerablePath : vulnerablePaths) {
-            System.out.println("Vulnerable path:");
-            for (Statement statement : vulnerablePath) {
-                System.out.println(statement);
-            }
-        }
+
 
     }
 

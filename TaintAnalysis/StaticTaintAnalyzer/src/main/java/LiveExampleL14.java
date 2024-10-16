@@ -7,6 +7,7 @@ import com.ibm.wala.ipa.callgraph.propagation.SSAPropagationCallGraphBuilder;
 import com.ibm.wala.ipa.cha.ClassHierarchy;
 import com.ibm.wala.ipa.cha.ClassHierarchyFactory;
 import com.ibm.wala.ssa.IR;
+import com.ibm.wala.ssa.SSACFG;
 import com.ibm.wala.types.ClassLoaderReference;
 import com.ibm.wala.util.config.AnalysisScopeReader;
 import com.ibm.wala.util.config.FileOfClasses;
@@ -102,6 +103,14 @@ public class LiveExampleL14 {
         CGNode mainNode = entrypointNodes.iterator().next();
         IR ir = mainNode.getIR();
         System.out.println(ir);
+
+
+        // getting CFG
+        SSACFG cfg = ir.getControlFlowGraph();
+
+        for(Object bb:cfg){
+            System.out.println(bb);
+        }
 
 
     }

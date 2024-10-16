@@ -57,7 +57,7 @@ public class ExampleL15 {
         options.setEntrypoints(entrypoints);
         SSAPropagationCallGraphBuilder builder = Util.makeNCFABuilder(1, options, new AnalysisCacheImpl(), classHierarchy, scope);
         CallGraph callGraph = builder.makeCallGraph(options, null);
-        ExampleL13.printCallGraph(callGraph, "1-CFA");
+        ExampleL14.printCallGraph(callGraph, "1-CFA");
 
 
         // Get the IR of the main method
