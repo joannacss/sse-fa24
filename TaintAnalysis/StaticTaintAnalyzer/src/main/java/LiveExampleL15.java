@@ -18,6 +18,7 @@ import com.ibm.wala.util.strings.Atom;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -56,21 +57,30 @@ public class LiveExampleL15 {
 
 
         // TODO: Compute the SDG of the program (data only)
-
+        SDG sdg = new SDG(callGraph, builder.getPointerAnalysis(),
+                Slicer.DataDependenceOptions.NO_BASE_NO_HEAP_NO_EXCEPTIONS,
+                Slicer.ControlDependenceOptions.NONE
+                );
 
         // TODO: find sources and sinks
+        Set<Statement> sources = findSources(sdg);
+        Set<Statement> sinks = findSinks(sdg);
 
 
         // TODO: slice the SDG and compute a pruned SDG
+        Collection<Statement> statements = Slicer.computeBackwardSlice(
+                sdg, sinks
+        );
 
 
         // TODO: find vulnerable paths
-
+        Set vulnerablePaths = getVulnerablePaths(sdg, sources, sinks);
 
 
         // TODO: print vulnerable paths
-
-
+        for (Object vulnerablePath : vulnerablePaths) {
+            System.out.println(vulnerablePath);
+        }
 
     }
 
@@ -92,7 +102,8 @@ public class LiveExampleL15 {
      * @return Set of sources
      */
     public static Set<Statement> findSources(SDG<InstanceKey> sdg) {
-
+        // String s = args[0]; --> v1
+        // String a = b[0];
         Set<Statement> result = new HashSet<>();
         for (Statement s : sdg) {
             if (s.getKind().equals(Statement.Kind.NORMAL) && isApplicationScope(s.getNode().getMethod().getDeclaringClass())) {
