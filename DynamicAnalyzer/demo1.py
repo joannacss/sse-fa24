@@ -22,8 +22,8 @@ def analyze(frame, event, arg):
 def main():
 	# start tracing the invocation
 	sys.settrace(analyze)
+	# run the target function
 	output = triangle(2, 2, 1)
-
 	# stop tracing the invocation
 	sys.settrace(None)
 
