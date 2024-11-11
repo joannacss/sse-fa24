@@ -1,5 +1,4 @@
 # Code retrieved from the Fuzzing Book (https://www.fuzzingbook.org/)
-
 def triangle(a, b, c):
     if a == b:
         if b == c:

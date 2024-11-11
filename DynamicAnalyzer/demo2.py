@@ -8,10 +8,16 @@ def analyze(frame, event, arg):
 
 	# get function name
 	function_name = function_code.co_name
-	source_lines, start = inspect.getsourcelines(function_code)
+
 	# get line number
 	lineno = frame.f_lineno
+	
+	# TODO: get all source lines
+	source_lines, start = inspect.getsourcelines(function_code)
+	print(lineno, start)
 	statement = source_lines[lineno - start].strip()
+	
+	# TODO: get all variables and print their values
 	variables = []
 	for var in frame.f_locals:
 		variables.append(f"{var}={frame.f_locals[var]}")
@@ -19,7 +25,7 @@ def analyze(frame, event, arg):
 	variables = ",".join(variables)
 
 
-	# prints them f"{event} --> {function_name}:{lineno}"
+	# TODO: prints them f"{event} --> {function_name}:{lineno} {statement} ({variables})"
 	print(f"{event} --> {function_name}:{lineno} {statement} ({variables})")
 
 	# returns the function itself to track the new scope
