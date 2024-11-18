@@ -1,4 +1,6 @@
-# coding=utf8
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+import inspect
 import linecache
 import re
 import sys
@@ -6,7 +8,6 @@ import sys
 from examples.shell_example import execute_cmd
 
 SINK_REGEX = re.compile(r"[ \t]+os\.system\((.*)\)")
-
 
 class TaintAnalyzer:
 
@@ -16,21 +17,20 @@ class TaintAnalyzer:
         self.inputs = []
         self.vulnerable_paths = []
 
-
     def mark_as_tainted(self, var):
         # TODO: mark a specific variable as tainted
         self.tainted_variables.add(id(var))
 
-
     def generate_inputs(self):
         # TODO: generates inputs (hardcoded)
-        tainted_input1 = "ls ."
-        tainted_input2 = "echo 'Executed Tainted Input'"
-        self.inputs.append(tainted_input1)
-        self.inputs.append(tainted_input2)
+        input1 = "ls ."
+        input2 = "echo 'Executed Tainted Input'"
+        self.inputs.append(input1)
+        self.inputs.append(input2)
+
         # TODO: mark generated inputs as tainted
-        self.mark_as_tainted(tainted_input1)
-        self.mark_as_tainted(tainted_input2)
+        self.mark_as_tainted(input1)
+        self.mark_as_tainted(input2)
 
 
     def check_taint(self, frame, event, arg, code_line):
@@ -43,10 +43,9 @@ class TaintAnalyzer:
                 if var_id in self.tainted_variables:
                     self.vulnerable_paths.append(self.current_path)
 
-
     def run(self):
-        # TODO: implement the tracer function
         def tracer(frame, event, arg):
+            # TODO: implement the tracer function
             function_code = frame.f_code
             function_name = function_code.co_name
             lineno = frame.f_lineno
@@ -61,14 +60,14 @@ class TaintAnalyzer:
         self.generate_inputs()
         for tainted_input in self.inputs:
             # TODO: run the tracer for each input
-            sys.settrace(tracer)
             self.current_path = []
+            sys.settrace(tracer)
             execute_cmd(tainted_input)
             sys.settrace(None)
 
+
         # TODO: return the vulnerable paths
         return self.vulnerable_paths
-
 
 
 if __name__ == '__main__':
