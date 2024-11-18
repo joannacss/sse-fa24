@@ -2,7 +2,7 @@ def twice(v):
    return 2 * v
 
 def test(x, y):
-   z = twice(y)
+   z = 2*y
    if x == z:
       if x > y + 10:
          print("ERROR")
