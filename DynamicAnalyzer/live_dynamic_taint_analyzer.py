@@ -1,5 +1,6 @@
 #!/usr/bin/python
 # -*- coding: utf8 -*-
+import ast
 import inspect
 import linecache
 import re
@@ -21,28 +22,30 @@ class TaintAnalyzer:
         # TODO: mark a specific variable as tainted
         self.tainted_variables.add(id(var))
 
+
     def generate_inputs(self):
         # TODO: generates inputs (hardcoded)
         input1 = "ls ."
-        input2 = "echo 'Executed Tainted Input'"
-        self.inputs.append(input1)
-        self.inputs.append(input2)
+        input2 = "echo 'Hello world'"
 
         # TODO: mark generated inputs as tainted
         self.mark_as_tainted(input1)
         self.mark_as_tainted(input2)
+        return [input1, input2]
+
 
 
     def check_taint(self, frame, event, arg, code_line):
         # TODO: checks whether a tainted variable reached a sink!
+        print("EVENT? ", event)
         if event == "line":
             m = SINK_REGEX.match(code_line)
+
             if m:
                 var_name = m.group(1)
                 var_id = id(frame.f_locals[var_name])
                 if var_id in self.tainted_variables:
                     self.vulnerable_paths.append(self.current_path)
-
     def run(self):
         def tracer(frame, event, arg):
             # TODO: implement the tracer function
@@ -57,17 +60,16 @@ class TaintAnalyzer:
             return tracer
 
         # TODO: generate inputs
-        self.generate_inputs()
+        self.inputs = self.generate_inputs()
         for tainted_input in self.inputs:
-            # TODO: run the tracer for each input
             self.current_path = []
             sys.settrace(tracer)
             execute_cmd(tainted_input)
             sys.settrace(None)
 
-
         # TODO: return the vulnerable paths
         return self.vulnerable_paths
+
 
 
 if __name__ == '__main__':
