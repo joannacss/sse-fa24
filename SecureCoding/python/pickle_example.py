@@ -2,7 +2,13 @@ import pickle
 
 data = {'key': 'value'}
 # Serialization
-serialized = pickle.dumps(data)
+with open('data.pickle', 'wb') as f:
+    pickle.dump(data, f)
+
 # Deserialization
-deserialized = pickle.loads(serialized)
-print(serialized)
+with open('data.pickle', 'rb') as f:
+    deserialized = pickle.load(f)
+    print(deserialized)
+
+# You can use pickle tools to analyze the content of the pickle file
+# python3 -m pickletools data.pickle
