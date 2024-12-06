@@ -25,5 +25,5 @@ def vulnerable_function(query:str, x: int, y: int) -> None:
 
 # Example usage of the vulnerable function
 if __name__ == "__main__":
-    print(vulnerable_function("admin", "admin_pass", 1, 2))  # Expected: Login successful
-    print(vulnerable_function("user", "wrong_pass", 3 , 4))  # Expected: Login failed
+    print(vulnerable_function("SELECT * FROM users WHERE username = 'admin' AND password = 'admin_pass'", 100, 95))  # Expected: Login successful, user returned
+    print(vulnerable_function("SELECT * FROM users WHERE username = 'user' AND password = 'wrong_pass'", 100, 95))  # Expected: Login failed, None returned
